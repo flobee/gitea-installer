@@ -51,7 +51,7 @@ chmod 600 "${PATH_HOME}/.ssh/authorized_keys"
 mkdir -p ${PATH_GITEA}
 chown ${USER}:${USER} ${PATH_GITEA}
 
-mkdir -p ${PATH_GITEA}/{custom,data,indexers,public,log}
+mkdir -p "${PATH_GITEA}/custom" "${PATH_GITEA}/data" "${PATH_GITEA}/indexers" "${PATH_GITEA}/public" "${PATH_GITEA}/log"
 
 echo '# install binary';
 cp -f "/tmp/${GITEA_BIN_BASENAME}" "${PATH_GITEA}/gitea"
