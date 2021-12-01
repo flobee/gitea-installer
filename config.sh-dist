@@ -90,3 +90,10 @@ GITEA_BIN_BASENAME=`basename "$GITEA_BIN_URL"`;
 if [ "${GITEA_BIN_BASENAME}" = "" ]; then
     GITEA_BIN_BASENAME='gitea-bin';
 fi
+
+# only root can do stuff
+RUNNING_USERID=$(id -u);
+if [ "${RUNNING_USERID}" != "0" ]; then
+    echo "The root user is required (0, found id '${RUNNING_USERID}')";
+    exit 1;
+fi
