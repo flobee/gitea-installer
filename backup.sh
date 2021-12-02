@@ -4,8 +4,8 @@
 # Basic includes for all scripts
 # ---------------------------------------------------------------------
 DIR_OF_FILE="$(dirname $(readlink -f "$0"))";
-. ${DIR_OF_FILE}/shellFunctions.sh
-sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh"
+. ${DIR_OF_FILE}/shellFunctions.sh;
+sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh";
 # ---------------------------------------------------------------------
 
 
@@ -19,7 +19,7 @@ if [ ! -d "${PATH_BACKUPS}" ]; then
     mkdir -p "${PATH_BACKUPS}";
 fi
 
-echo '# pls delete old backups, probably:'
+echo '# pls delete old backups, probably:';
 ls -alh ${PATH_BACKUPS}/gitea-${DIRNAME_REPOSITORIES}-*;
 ls -alh ${PATH_BACKUPS}/gitea-${DIRNAME_GITEA}-*;
 

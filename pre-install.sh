@@ -8,11 +8,11 @@
 # Basic includes for all scripts
 # ---------------------------------------------------------------------
 DIR_OF_FILE="$(dirname $(readlink -f "$0"))";
-. ${DIR_OF_FILE}/shellFunctions.sh
-sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh"
+. ${DIR_OF_FILE}/shellFunctions.sh;
+sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh";
 # ---------------------------------------------------------------------
 
-CMD_PKG_MANAGER_CHECK="${PKG_MANAGER} ${PKG_MANAGER_OPTS}" # eg check if curl is available: dpkg -s curl
+CMD_PKG_MANAGER_CHECK="${PKG_MANAGER} ${PKG_MANAGER_OPTS}"; # eg check if curl is available: dpkg -s curl
 
 
 if [ ! -x "`which ${PKG_MANAGER}`" ]; then

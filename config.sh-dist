@@ -8,7 +8,7 @@
 # OS related packet manager to detect if packages are available or
 # needs to be installed. For more see `pre-install.sh`
 PKG_MANAGER='dpkg';
-PKG_MANAGER_OPTS='-s'
+PKG_MANAGER_OPTS='-s';
 PACKAGES_REQUIRED=' git wget sqlite3 curl';
 PACKAGES_OPTIONAL='apt-transport-https ca-certificates ssl-cert';
 PACKAGES_STOP_ON_INCOMPLETE='Y'; # If required packages are missing: Stop script
@@ -21,11 +21,11 @@ PORT=3001;
 
 PATH_HOME='/home/git';                      # home of $USER
 
-PATH_BACKUPS="$PATH_HOME/backups"           # path for backups
+PATH_BACKUPS="$PATH_HOME/backups";          # path for backups
 
 PATH_GITEA="$PATH_HOME/tea";                # gitea in /home/git/tea/
 
-PATH_REPOSITORIES="$PATH_HOME/repositories" # repos in /home/git/repositories/
+PATH_REPOSITORIES="$PATH_HOME/repositories";# repos in /home/git/repositories/
 
 ACTION_ASKQUESTIONS='Y';                    # Ask or just use the config defaults (Y|N)? N for automisations
                                             # If 'N' all actions will perform without asking.
@@ -38,7 +38,7 @@ ACTION_TYPE='I';                            # Type of installation: I|U
 ACTION_BACKUPDEFAULT='Y';                   # default value for creating backups first: Y|N
 
 # To install as a service set to 1 otherwise something different e.g: 0
-INSTALL_AS_SERVICE=1
+INSTALL_AS_SERVICE=1;
 
 
 

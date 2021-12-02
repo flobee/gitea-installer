@@ -9,8 +9,8 @@
 # Basic includes for all scripts
 # ---------------------------------------------------------------------
 DIR_OF_FILE="$(dirname $(readlink -f "$0"))";
-. ${DIR_OF_FILE}/shellFunctions.sh
-sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh"
+. ${DIR_OF_FILE}/shellFunctions.sh;
+sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh";
 # ---------------------------------------------------------------------
 
 # Download gitea bin
@@ -20,11 +20,11 @@ if [ "$?" != 0 ]; then
 fi
 
 echo '# install binary';
-cp -f "/tmp/${GITEA_BIN_BASENAME}" "${PATH_GITEA}/gitea"
-chmod +x "${PATH_GITEA}/gitea"
+cp -f "/tmp/${GITEA_BIN_BASENAME}" "${PATH_GITEA}/gitea";
+chmod +x "${PATH_GITEA}/gitea";
 
-systemctl stop gitea
+systemctl stop gitea;
 
-systemctl start gitea
+systemctl start gitea;
 
-. ${DIR_OF_FILE}/z_after_install_update.sh
+. ${DIR_OF_FILE}/z_after_install_update.sh;

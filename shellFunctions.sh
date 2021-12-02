@@ -9,8 +9,8 @@ confirmCommand() {
     else
         _CONFIRMCOMMAND=${default};
     fi
-    read -p "Confirm (Y)es,(n)o (def:'$_CONFIRMCOMMAND'): " CONFIRMCOMMAND
-    CONFIRMCOMMAND=${CONFIRMCOMMAND:-$_CONFIRMCOMMAND}
+    read -p "Confirm (Y)es,(n)o (def:'$_CONFIRMCOMMAND'): " CONFIRMCOMMAND;
+    CONFIRMCOMMAND=${CONFIRMCOMMAND:-$_CONFIRMCOMMAND};
 
     return 0;
 }

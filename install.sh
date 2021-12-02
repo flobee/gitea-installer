@@ -9,8 +9,8 @@
 # Basic includes for all scripts
 # ---------------------------------------------------------------------
 DIR_OF_FILE="$(dirname $(readlink -f "$0"))";
-. ${DIR_OF_FILE}/shellFunctions.sh
-sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh"
+. ${DIR_OF_FILE}/shellFunctions.sh;
+sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh";
 # ---------------------------------------------------------------------
 
 # pre-install to check if required packages are available
@@ -34,28 +34,28 @@ adduser --system \
     --gecos 'Git Version Control' \
     --group --disabled-password \
     --home ${PATH_HOME} \
-    ${USER}
+    ${USER};
 
 
-mkdir -p "$PATH_REPOSITORIES"
-chown ${USER}:${USER} "$PATH_REPOSITORIES"
+mkdir -p "$PATH_REPOSITORIES";
+chown ${USER}:${USER} "$PATH_REPOSITORIES";
 
-mkdir -p "${PATH_HOME}/.ssh"
-chown ${USER}:${USER} "${PATH_HOME}/.ssh"
-chmod 700 "${PATH_HOME}/.ssh"
-touch "${PATH_HOME}/.ssh/authorized_keys"
-chown ${USER}:${USER} "${PATH_HOME}/.ssh/authorized_keys"
-chmod 600 "${PATH_HOME}/.ssh/authorized_keys"
+mkdir -p "${PATH_HOME}/.ssh";
+chown ${USER}:${USER} "${PATH_HOME}/.ssh";
+chmod 700 "${PATH_HOME}/.ssh";
+touch "${PATH_HOME}/.ssh/authorized_keys";
+chown ${USER}:${USER} "${PATH_HOME}/.ssh/authorized_keys";
+chmod 600 "${PATH_HOME}/.ssh/authorized_keys";
 
 
-mkdir -p ${PATH_GITEA}
-chown ${USER}:${USER} ${PATH_GITEA}
+mkdir -p ${PATH_GITEA};
+chown ${USER}:${USER} ${PATH_GITEA};
 
-mkdir -p "${PATH_GITEA}/custom" "${PATH_GITEA}/data" "${PATH_GITEA}/indexers" "${PATH_GITEA}/public" "${PATH_GITEA}/log"
+mkdir -p "${PATH_GITEA}/custom" "${PATH_GITEA}/data" "${PATH_GITEA}/indexers" "${PATH_GITEA}/public" "${PATH_GITEA}/log";
 
 echo '# install binary';
-cp -f "/tmp/${GITEA_BIN_BASENAME}" "${PATH_GITEA}/gitea"
-chmod +x "${PATH_GITEA}/gitea"
+cp -f "/tmp/${GITEA_BIN_BASENAME}" "${PATH_GITEA}/gitea";
+chmod +x "${PATH_GITEA}/gitea";
 
 
 #
@@ -103,9 +103,9 @@ echo "You should be in as user '${USER}' now! verify with eg: $: id";
 echo 'Copy the following infomations because after starting the gitea server';
 echo 'it will output an lot and then execute now to start the gitea server: ';
 echo "    cd ${PATH_GITEA}";
-echo "    ./gitea web -p ${PORT} -c custom/conf/app.ini"
+echo "    ./gitea web -p ${PORT} -c custom/conf/app.ini";
 echo
-echo "If you just upgrade the binary: "
+echo "If you just upgrade the binary: ";
 echo "Make sure the conf/app.ini is writable for the user '${USER}' if you want";
 echo "to change settings! Otherwise just go ahead, see below";
 echo
@@ -123,8 +123,8 @@ echo "    LFS: ${PATH_GITEA}/data/lfs ";
 echo '';
 echo ' Mail setup: Ask your admins!';
 echo '---------------------------------------------------------------------';
-echo "After it, close the session CRTL + C (stop gitea) then CRTL + D (out
-of user ${USER}) to go ahead with this script";
+echo "After it, close the session CRTL + C (stop gitea) then CRTL + D (out ";
+echo "of user ${USER}) to go ahead with this script";
 echo '---------------------------------------------------------------------';
 
 # first run of gittea should be under user ${USER}
@@ -133,13 +133,13 @@ su - ${USER}
 if [ "$INSTALL_AS_SERVICE" = "1" ];
 then
     # remove existing
-    systemctl daemon-reload
-    systemctl stop gitea
-    systemctl disable gitea
+    systemctl daemon-reload;
+    systemctl stop gitea;
+    systemctl disable gitea;
     # re-add
-    systemctl enable gitea
-    systemctl daemon-reload
-    systemctl start gitea
+    systemctl enable gitea;
+    systemctl daemon-reload;
+    systemctl start gitea;
 fi
 
-. ${DIR_OF_FILE}/z_after_install_update.sh
+. ${DIR_OF_FILE}/z_after_install_update.sh;

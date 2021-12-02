@@ -9,8 +9,8 @@
 # Basic includes for all scripts
 # ---------------------------------------------------------------------
 DIR_OF_FILE="$(dirname $(readlink -f "$0"))";
-. ${DIR_OF_FILE}/shellFunctions.sh
-sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh"
+. ${DIR_OF_FILE}/shellFunctions.sh;
+sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh";
 # ---------------------------------------------------------------------
 
 # all old files (may still exists) to be removed
@@ -22,12 +22,12 @@ EXECUTABLES='selfupdate.sh runner.sh';
 
 for FILE in ${FILE_LIST_OLD};
 do
-    rm "${DIR_OF_FILE}/${FILE}"
+    rm "${DIR_OF_FILE}/${FILE}";
 done;
 
 for FILE in ${FILE_LIST_NEW};
 do
-    wget --quiet --show-progress --output-document="${DIR_OF_FILE}/${FILE}.new" "${GITEA_INSTALLER_BASEURL}/${FILE}" || rm "${DIR_OF_FILE}/${FILE}.new"
+    wget --quiet --show-progress --output-document="${DIR_OF_FILE}/${FILE}.new" "${GITEA_INSTALLER_BASEURL}/${FILE}" || rm "${DIR_OF_FILE}/${FILE}.new";
     if [ ! -f "${DIR_OF_FILE}/${FILE}.new" ]; then
         echo "Download failt for: '${DIR_OF_FILE}/${FILE}'. Pls check the source url";
     else
@@ -37,14 +37,14 @@ done;
 
 for FILE in ${EXECUTABLES};
 do
-    chmod +x "${DIR_OF_FILE}/${FILE}"
+    chmod +x "${DIR_OF_FILE}/${FILE}";
 done;
 
 
 if [ -f "${DIR_OF_FILE}/config.sh" ]; then
     echo '+ ---------------------------------------------------------------------';
-    echo "| Custom 'config.sh' found"
-    echo "| Please compare your custom 'config.sh' with 'config.sh-dist' first"
+    echo "| Custom 'config.sh' found";
+    echo "| Please compare your custom 'config.sh' with 'config.sh-dist' first";
     echo "| befor you go on";
     echo '+ ---------------------------------------------------------------------';
 fi

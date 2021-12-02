@@ -6,8 +6,8 @@
 # Basic includes for all scripts
 # ---------------------------------------------------------------------
 DIR_OF_FILE="$(dirname $(readlink -f "$0"))";
-. ${DIR_OF_FILE}/shellFunctions.sh
-sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh"
+. ${DIR_OF_FILE}/shellFunctions.sh;
+sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh";
 # ---------------------------------------------------------------------
 
 cd ${PATH_HOME};
@@ -24,12 +24,12 @@ if [ "${ACTION_ASKQUESTIONS}" = "Y" ]; then
     echo "Run backup bevor going on? (defaut: '${ACTION_ASKQUESTIONS}')";
     confirmCommand "${ACTION_BACKUPDEFAULT}";
     if [ "$?" = 0 ] && [ ${CONFIRMCOMMAND} = "Y" ]; then
-        sh ${DIR_OF_FILE}/backup.sh
+        sh ${DIR_OF_FILE}/backup.sh;
     fi
 fi
 
 if [ "${ACTION_ASKQUESTIONS}" = "N" ] && [ "${ACTION_BACKUPDEFAULT}" = "Y" ]; then
-    sh ${DIR_OF_FILE}/backup.sh
+    sh ${DIR_OF_FILE}/backup.sh;
 fi
 
 
@@ -41,8 +41,8 @@ fi
 if [ "${ACTION_ASKQUESTIONS}" = "Y" ]; then
     _ACTION_TYPE=${ACTION_TYPE};
     echo "Run install (I) or update (U) ? (defaut: '${ACTION_TYPE}')";
-    read -p "install (I) or update (U) (def:'${_ACTION_TYPE}'): " ACTION_TYPE
-    ACTION_TYPE=${ACTION_TYPE:-$_ACTION_TYPE}
+    read -p "install (I) or update (U) (def:'${_ACTION_TYPE}'): " ACTION_TYPE;
+    ACTION_TYPE=${ACTION_TYPE:-$_ACTION_TYPE};
 fi
 
 if [ "${ACTION_TYPE}" = 'U' ]; then
