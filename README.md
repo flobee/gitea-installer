@@ -15,7 +15,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Install helper scripts for `gitea`.
 
-Under debian `stretch`|`buster`|`bullseye` and many other *nix OS's.
+Under debian and many other *nix OS's.
 
 I had some issues at the very first day installing `gitea` and was not able to
 get it run.
@@ -86,9 +86,12 @@ your custom `config.sh`. Suggested values then:
     ACTION_ASKQUESTIONS='N';
     ACTION_TYPE='U';
 
-Then call `runner.sh '[new url]'` or `download.sh '[new url]'` for a specific
-version you selected or just run the `runner.sh` or `download.sh` script for the
-latest version.
+Old: Then call `runner.sh '[new url]'` or `download.sh '[new url]'`
+
+New: `[new url]` does problem currently. Dont use it.
+
+New: Just run the `runner.sh` script for the latest version or update your
+config with an actual version you want to use.
 
 To avoid overwriting your settings (e.g. when using `selfupdate.sh`) add your
 own `config.sh` including your settings which you can find in `config.sh-dist`.

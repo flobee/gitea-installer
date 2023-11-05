@@ -83,6 +83,12 @@ if [ "${GITEA_BIN_URL}" = "latest" ]; then
     if [ -n "$(uname -a | grep armv7l)" ]; then
         GITEA_BIN_URL="https://dl.gitea.io/gitea/${GITEA_VERSION}/gitea-${GITEA_VERSION}-linux-arm-7";
     fi
+
+    if [ "$GITEA_BIN_URL" = "" ]; then
+        echo "Detections of the latest gitea version failed for your OS. Please report this!";
+        exit 1;
+    fi
+
     #echo "Download 'latest' verison: ${GITEA_BIN_BASENAME}";
 fi
 

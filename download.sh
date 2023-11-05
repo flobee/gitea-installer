@@ -21,6 +21,7 @@ if [ "${GITEA_BIN_URL}" = "" ] &&  [ "${ACTION_ASKQUESTIONS}" = "N" ] && [ "$1" 
 fi
 if [ "${GITEA_BIN_URL}" = "" ] &&  [ "${ACTION_ASKQUESTIONS}" = "N" ] && [ "$1" != "" ]; then
     GITEA_BIN_URL=$1;
+    GITEA_BIN_BASENAME=`basename "$GITEA_BIN_URL"`;
 fi
 
 if [ "${GITEA_BIN_URL}" = "" ] &&  [ "${ACTION_ASKQUESTIONS}" = "Y" ] ; then
@@ -33,6 +34,7 @@ if [ "${GITEA_BIN_URL}" = "" ] &&  [ "${ACTION_ASKQUESTIONS}" = "Y" ] ; then
     echo "Enter GITEA_BIN_URL or confirm: '${_GITEA_BIN_URL}'";
     read -p "Url or enter to confirm: '${_GITEA_BIN_URL}': " GITEA_BIN_URL;
     GITEA_BIN_URL=${GITEA_BIN_URL:-$_GITEA_BIN_URL};
+    GITEA_BIN_BASENAME=`basename "$GITEA_BIN_URL"`;
 fi
 
 echo "Download url: '${GITEA_BIN_URL}'";
@@ -65,7 +67,7 @@ if [ "${DOWNLOAD_NOW}" = "1" ]; then
 fi
 
 if [ ! -f "/tmp/${GITEA_BIN_BASENAME}" ] ; then
-    echo "Download error";
+    echo "Download error! Not found "/tmp/${GITEA_BIN_BASENAME}"";
     exit 1;
 fi
 
