@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/dash
+#echo "File: $(readlink -f "$0")";
 
 # ---------------------------------------------------------------------
 # Paths/ settings you may want to change: see config.sh
@@ -8,55 +9,80 @@
 # ---------------------------------------------------------------------
 # Basic includes for all scripts
 # ---------------------------------------------------------------------
-DIR_OF_FILE="$(dirname $(readlink -f "$0"))";
-. ${DIR_OF_FILE}/shellFunctions.sh;
-sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh";
+DIR_OF_FILE="$(dirname "$(readlink -f "$0")")";
+. "${DIR_OF_FILE}"/shellFunctions.sh;
+sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh" "$1";
 # ---------------------------------------------------------------------
 
 # pre-install to check if required packages are available
-sh ${DIR_OF_FILE}/pre-install.sh
-if [ "$?" != 0 ]; then
-    exit 1;
+# sh "${DIR_OF_FILE}"/pre-install.sh
+# if [ "$?" != 0 ]; then
+#     exit 1;
+# fi
+
+if ! sh "${DIR_OF_FILE}"/pre-install.sh; then
+    echo 'no';
 fi
 
 # Download gitea bin
-sh ${DIR_OF_FILE}/download.sh "$1"
-if [ "$?" != 0 ]; then
+if ! sh "${DIR_OF_FILE}"/download.sh "$1"; then
     exit 1;
 fi
 
 echo '###';
-echo '# installing gitea....';
+echo '# install binary...';
+
+INSTALL_NOW=0;
+if [ "${ACTION_ASKQUESTIONS}" = "Y" ]; then
+    CONFIRMCOMMAND=${ACTION_ASKQUESTIONS};
+    echo "Install the downloaded version of gitea now? (defaut: '${ACTION_ASKQUESTIONS}')";
+    if confirmCommand "${ACTION_ASKQUESTIONS}" && [ "${CONFIRMCOMMAND}" = "Y" ]; then
+        INSTALL_NOW=1;
+    else
+        echo "Abort by user";
+        exit 1;
+    fi
+fi
+
+if [ "${ACTION_ASKQUESTIONS}" = "N" ]; then
+    INSTALL_NOW=1;
+fi
+
+if [ "${INSTALL_NOW}" != 1 ]; then
+    echo "Abort install process";
+fi
 
 
 adduser --system \
     --shell /bin/bash \
     --gecos 'Git Version Control' \
     --group --disabled-password \
-    --home ${PATH_HOME} \
-    ${USER};
+    --home "${PATH_HOME}" \
+    "${USER}";
 
 
 mkdir -p "$PATH_REPOSITORIES";
-chown ${USER}:${USER} "$PATH_REPOSITORIES";
+chown "${USER}":"${USER}" "$PATH_REPOSITORIES";
 
 mkdir -p "${PATH_HOME}/.ssh";
-chown ${USER}:${USER} "${PATH_HOME}/.ssh";
+chown "${USER}":"${USER}" "${PATH_HOME}/.ssh";
 chmod 700 "${PATH_HOME}/.ssh";
+
 touch "${PATH_HOME}/.ssh/authorized_keys";
-chown ${USER}:${USER} "${PATH_HOME}/.ssh/authorized_keys";
+chown "${USER}":"${USER}" "${PATH_HOME}/.ssh/authorized_keys";
 chmod 600 "${PATH_HOME}/.ssh/authorized_keys";
 
 
-mkdir -p ${PATH_GITEA};
-chown ${USER}:${USER} ${PATH_GITEA};
+mkdir -p "${PATH_GITEA}";
+chown "${USER}":"${USER}" "${PATH_GITEA}";
 
-mkdir -p "${PATH_GITEA}/custom" "${PATH_GITEA}/data" "${PATH_GITEA}/indexers" "${PATH_GITEA}/public" "${PATH_GITEA}/log";
+mkdir -p "${PATH_GITEA}/custom/conf" "${PATH_GITEA}/data" "${PATH_GITEA}/indexers" "${PATH_GITEA}/public" "${PATH_GITEA}/log";
+chown -R "${USER}":"${USER}" "${PATH_GITEA}/custom/" "${PATH_GITEA}/data" "${PATH_GITEA}/indexers" "${PATH_GITEA}/public" "${PATH_GITEA}/log"
 
 echo '# install binary';
 cp -f "/tmp/${GITEA_BIN_BASENAME}" "${PATH_GITEA}/gitea";
 chmod +x "${PATH_GITEA}/gitea";
-
+chown "${USER}":"${USER}" "${PATH_GITEA}/gitea";
 
 #
 # preparing init service script
@@ -105,12 +131,12 @@ echo 'it will output an lot and then execute now to start the gitea server: ';
 echo "    cd ${PATH_GITEA}";
 echo "    ./gitea web -p ${PORT} -c custom/conf/app.ini";
 echo
+echo "New install: Now open your browser to http://<server>:${PORT} and follow";
+echo "the instructions";
+echo
 echo "If you just upgrade the binary: ";
 echo "Make sure the conf/app.ini is writable for the user '${USER}' if you want";
 echo "to change settings! Otherwise just go ahead, see below";
-echo
-echo "New install: Now open your browser to http://<server>:${PORT} and follow";
-echo "the instructions";
 echo
 echo 'Note: If you have an existing app.ini the values are NOT SHOWN';
 echo 'It shows default values! Take care!';
@@ -128,7 +154,7 @@ echo "of user ${USER}) to go ahead with this script";
 echo '---------------------------------------------------------------------';
 
 # first run of gittea should be under user ${USER}
-su - ${USER}
+su - "${USER}"
 
 if [ "$INSTALL_AS_SERVICE" = "1" ];
 then
@@ -142,4 +168,4 @@ then
     systemctl start gitea;
 fi
 
-. ${DIR_OF_FILE}/z_after_install_update.sh;
+. "${DIR_OF_FILE}"/z_after_install_update.sh;

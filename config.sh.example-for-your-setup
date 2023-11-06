@@ -1,5 +1,6 @@
-#!/bin/sh
-
+#!/bin/dash
+# shellcheck disable=SC2034  # Unused variables left for readability
+#
 # ---------------------------------------------------------------------
 # Paths and settings you may want to change
 # ---------------------------------------------------------------------

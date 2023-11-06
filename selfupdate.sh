@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 
 # ---------------------------------------------------------------------
 # self update script
@@ -8,8 +8,8 @@
 # ---------------------------------------------------------------------
 # Basic includes for all scripts
 # ---------------------------------------------------------------------
-DIR_OF_FILE="$(dirname $(readlink -f "$0"))";
-. ${DIR_OF_FILE}/shellFunctions.sh;
+DIR_OF_FILE="$(dirname "$(readlink -f "$0")")";
+. "${DIR_OF_FILE}"/shellFunctions.sh;
 sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh";
 # ---------------------------------------------------------------------
 
@@ -45,7 +45,8 @@ if [ -f "${DIR_OF_FILE}/config.sh" ]; then
     echo '+ ---------------------------------------------------------------------';
     echo "| Custom 'config.sh' found";
     echo "| Please compare your custom 'config.sh' with 'config.sh-dist' first";
-    echo "| befor you go on";
+    echo "| befor you go on. Check the inline documentation to ONLY USE NOT ALL";
+    echo "| PARTS of it.";
     echo '+ ---------------------------------------------------------------------';
 fi
 

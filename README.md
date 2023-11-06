@@ -1,4 +1,3 @@
-
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -9,6 +8,20 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [About](#about)
+  - [Getting started](#getting-started)
+  - [Updates](#updates)
+  - [Usage over the time](#usage-over-the-time)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 
 # About
@@ -33,7 +46,7 @@ the kind of update (update or install from scratch) depending on
 
 Read all infomations of the output befor you go on to avoid problems.
 
-The scripts should be run under `root` and will setup needed path and rights and
+The scripts must run under `root` and will setup needed path and rights and
 switch the user when needed for setup/configure the frontend (gitea frontend)
 with furhter details.
 
@@ -63,7 +76,7 @@ Feel free to run the single scripts like: `backup.sh`, `download.sh`,
 By default this was tested with debian's default shell: `dash`. If you have
 problems please report or post suggestions. i'm not that high-end shell junkie
 and everything here could be improved but it should work with all posix shells
-out there (-:
+out there.
 
 
 ## Updates
@@ -78,7 +91,8 @@ input.
 Maybe some time some updates are required. Update the repository or use the
 `selfupdate.sh` script to replace/update existing scripts.
 
-Note: `config.sh-dist` would be replaced with the default values!
+Note: `config.sh-dist` would be replaced with the default values! Don't edit it.
+Don't copy it to be used as `config.sh`.
 
 For automisations you can set the config to not ask questions anymore e.g. using
 your custom `config.sh`. Suggested values then:
@@ -86,17 +100,19 @@ your custom `config.sh`. Suggested values then:
     ACTION_ASKQUESTIONS='N';
     ACTION_TYPE='U';
 
-Old: Then call `runner.sh '[new url]'` or `download.sh '[new url]'`
+Then call `runner.sh '[new url]'`, `update.sh '[new url]'` or `download.sh 
+'[new url]'`. Download only downloads the binarys and checks the sha256
+checksum.
 
-New: `[new url]` does problem currently. Dont use it.
-
-New: Just run the `runner.sh` script for the latest version or update your
-config with an actual version you want to use.
+For all jobs the `runner.sh` is the best entry point for the latest version or 
+update your config with an actual version you want to use or simply force using
+the version you want to install: `runner.sh [URL]`.
 
 To avoid overwriting your settings (e.g. when using `selfupdate.sh`) add your
 own `config.sh` including your settings which you can find in `config.sh-dist`.
-The scripts first scans the default `config.sh-dist` file and then scans your
-`config.sh` file (if exists) so that your values will take account (lifo).
+But not all of them! Read carfully. The scripts first scans the default 
+`config.sh-dist` file and then scans your `config.sh` file (if exists) so that 
+your values will take account (lifo).
 
 
 ## Usage over the time

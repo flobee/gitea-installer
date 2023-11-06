@@ -1,10 +1,10 @@
-#!/bin/sh
-
+#!/bin/dash
+# shellcheck disable=SC2034  # Unused variables left for readability
+#
 # ---------------------------------------------------------------------
 # Paths and settings you may want to change
 # ---------------------------------------------------------------------
-
-# ---------------------------------------------------------------------
+#
 # OS related packet manager to detect if packages are available or
 # needs to be installed. For more see `pre-install.sh`
 PKG_MANAGER='dpkg';
@@ -47,59 +47,82 @@ INSTALL_AS_SERVICE=1;
 # ---------------------------------------------------------------------
 
 # gitea download url as var GITEA_BIN_URL to be installed by the installer.
-# optional use a generic value: "latest" to scan github.com api to download the latest version (not recomment)
-#GITEA_BIN_URL=https://dl.gitea.io/gitea/1.4.2/gitea-1.4.2-linux-amd64
-#GITEA_BIN_URL=https://dl.gitea.io/gitea/1.12.3/gitea-1.12.3-linux-amd64
-#GITEA_BIN_URL=https://github.com/go-gitea/gitea/releases/download/v1.12.3/gitea-1.12.3-linux-amd64
-#GITEA_BIN_URL=https://dl.gitea.io/gitea/1.15.6/gitea-1.15.6-linux-amd64
-#GITEA_BIN_URL=https://github.com/go-gitea/gitea/releases/download/v1.15.6/gitea-1.15.6-linux-amd64
-GITEA_BIN_URL='latest';
+# optional use a generic value: "latest" to scan github.com api to download the
+# latest version (not recommended: can become buggy, unusable)
 
-# where this sources are located to fetch updates (stable branch)
+CONFIG_GITEA_BIN_URL='latest';
+
+# older examples
+## CONFIG_GITEA_BIN_URL=https://dl.gitea.io/gitea/1.4.2/gitea-1.4.2-linux-amd64
+## CONFIG_GITEA_BIN_URL=https://dl.gitea.io/gitea/1.12.3/gitea-1.12.3-linux-amd64
+## CONFIG_GITEA_BIN_URL=https://github.com/go-gitea/gitea/releases/download/v1.12.3/gitea-1.12.3-linux-amd64
+## CONFIG_GITEA_BIN_URL=https://dl.gitea.io/gitea/1.15.6/gitea-1.15.6-linux-amd64
+## CONFIG_GITEA_BIN_URL=https://github.com/go-gitea/gitea/releases/download/v1.15.6/gitea-1.15.6-linux-amd64
+
+
+# where this sources are located to fetch updates with selfupdate.sh (stable branch)
 GITEA_INSTALLER_BASEURL='https://raw.githubusercontent.com/flobee/gitea-installer/stable';
 
-DIRNAME_REPOSITORIES=`basename "${PATH_REPOSITORIES}"`
+DIRNAME_REPOSITORIES=$(basename "${PATH_REPOSITORIES}");
 
-DIRNAME_GITEA=`basename "${PATH_GITEA}"`
+DIRNAME_GITEA=$(basename "${PATH_GITEA}");
 
-TIMENOW=`date +'%Y%m%d-%H%M%S'`;
+TIMENOW=$(date +'%Y%m%d-%H%M%S');
 
 # check if 'latest'
-if [ "${GITEA_BIN_URL}" = "latest" ]; then
+if [ "${CONFIG_GITEA_BIN_URL}" = "latest" ] && [ "$GITEA_BIN_URL" = "" ]; then
     GITEA_VERSION=$(curl --silent "https://api.github.com/repos/go-gitea/gitea/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' | sed 's|[v,]||g' )
     # detect OS/kernel
-    if [ -n "$(uname -a | grep i386)" ]; then
+    #if [ -n "$(uname -a | grep i386)" ]; then
+    if uname -a | grep -q i368; then
         GITEA_BIN_URL="https://dl.gitea.io/gitea/${GITEA_VERSION}/gitea-${GITEA_VERSION}-linux-386";
     fi
 
-    if [ -n "$(uname -a | grep x86_64)" ]; then
+    if uname -a | grep -q x86_64; then
         GITEA_BIN_URL="https://dl.gitea.io/gitea/${GITEA_VERSION}/gitea-${GITEA_VERSION}-linux-amd64";
     fi
 
-    if [ -n "$(uname -a | grep armv6l)" ]; then
+    if uname -a | grep armv6l; then
         GITEA_BIN_URL="https://dl.gitea.io/gitea/${GITEA_VERSION}/gitea-${GITEA_VERSION}-linux-arm-6";
     fi
 
-    if [ -n "$(uname -a | grep armv7l)" ]; then
+    if uname -a | grep armv7l; then
         GITEA_BIN_URL="https://dl.gitea.io/gitea/${GITEA_VERSION}/gitea-${GITEA_VERSION}-linux-arm-7";
     fi
 
-    if [ "$GITEA_BIN_URL" = "" ]; then
-        echo "Detections of the latest gitea version failed for your OS. Please report this!";
+    if [ "$GITEA_BIN_URL" = "" ] || [ "${GITEA_VERSION}" = "" ]; then
+        echo "Detections of the latest gitea version failed for your OS.";
+        if [ "${GITEA_VERSION}" = "" ]; then
+            echo
+            echo "The API query may failed to detect a version. Dont use too often."
+            echo "Give it a try later or use";
+            echo "# runner.sh 'URL TO YOUR VERSION'";
+            echo "for a manual installation and skip autodetection this way."
+            echo
+        else
+            echo "Please find it for you needs and report it.";
+        fi
         exit 1;
+    else
+        GITEA_BIN_BASENAME=$(basename "$GITEA_BIN_URL");
+        if [ "${GITEA_BIN_BASENAME}" = "" ]; then
+            GITEA_BIN_BASENAME='gitea-bin';
+
+            export GITEA_BIN_URL;
+            export GITEA_BIN_BASENAME;
+        fi
     fi
 
-    #echo "Download 'latest' verison: ${GITEA_BIN_BASENAME}";
+    #echo "Download 'latest' verison: ${GITEA_VERSION}, ${GITEA_BIN_BASENAME}";
 fi
 
-GITEA_BIN_BASENAME=`basename "$GITEA_BIN_URL"`;
-if [ "${GITEA_BIN_BASENAME}" = "" ]; then
-    GITEA_BIN_BASENAME='gitea-bin';
-fi
+
 
 # only root can do stuff
 RUNNING_USERID=$(id -u);
 if [ "${RUNNING_USERID}" != "0" ]; then
-    echo "The root user is required (0, found id '${RUNNING_USERID}')";
+    echo '+-------------------------------------------------------------+';
+    echo "| The root user is required (0, found id '${RUNNING_USERID}') |";
+    echo '+-------------------------------------------------------------+';
     exit 1;
 fi
