@@ -19,7 +19,7 @@ FILE_LIST_OLD='';
 # all new files to download
 FILE_LIST_NEW='LICENSE.txt README.md backup.sh config.sh-dist config.sh.example-for-your-setup download.sh install.sh pre-install.sh runner.sh selfupdate.sh shellFunctions.sh uninstall.sh update.sh z_after_install_update.sh ';
 
-EXECUTABLES='selfupdate.sh runner.sh update.sh backup.sh download.sh';
+EXECUTABLES='selfupdate.sh runner.sh install.sh update.sh backup.sh download.sh';
 
 for FILE in ${FILE_LIST_OLD};
 do
