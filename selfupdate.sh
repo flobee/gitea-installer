@@ -1,4 +1,5 @@
 #!/bin/dash
+#echo "File: $(readlink -f "$0")";
 
 # ---------------------------------------------------------------------
 # self update script
@@ -16,9 +17,9 @@ sourceConfigs "${DIR_OF_FILE}" "config.sh-dist" "config.sh";
 # all old files (may still exists) to be removed
 FILE_LIST_OLD='';
 # all new files to download
-FILE_LIST_NEW='backup.sh config.sh-dist config.sh.example-for-your-setup download.sh pre-install.sh install.sh README.md runner.sh shellFunctions.sh update.sh z_after_install_update.sh selfupdate.sh';
+FILE_LIST_NEW='LICENSE.txt README.md backup.sh config.sh-dist config.sh.example-for-your-setup download.sh install.sh pre-install.sh runner.sh selfupdate.sh shellFunctions.sh uninstall.sh update.sh z_after_install_update.sh ';
 
-EXECUTABLES='selfupdate.sh runner.sh';
+EXECUTABLES='selfupdate.sh runner.sh update.sh backup.sh download.sh';
 
 for FILE in ${FILE_LIST_OLD};
 do

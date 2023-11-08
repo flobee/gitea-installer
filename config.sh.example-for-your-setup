@@ -2,7 +2,8 @@
 # shellcheck disable=SC2034  # Unused variables left for readability
 #
 # ---------------------------------------------------------------------
-# Paths and settings you may want to change
+# Paths and settings you may want to change.
+# The rest comes from the main config by the maintainer in config.sh-dist.
 # ---------------------------------------------------------------------
 
 ACTION_ASKQUESTIONS='N';                    # Ask or just use the config defaults (Y|N)? N for automisations
