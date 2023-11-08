@@ -14,6 +14,10 @@ Even with a sqliteDB when i started using it. And it can scale.
 
 **I ❤ Gitea**
 
++ Web: https://gitea.io/
++ Source: https://github.com/go-gitea/gitea
++ Releases: https://github.com/go-gitea/gitea/releases
+
 
 
 ## WARNING:
