@@ -90,6 +90,10 @@ if [ "${CONFIG_GITEA_BIN_URL}" = "latest" ] && [ "$GITEA_BIN_URL" = "" ]; then
         GITEA_BIN_URL="https://dl.gitea.io/gitea/${GITEA_VERSION}/gitea-${GITEA_VERSION}-linux-arm-7";
     fi
 
+    if uname -a | grep aarch64; then
+        GITEA_BIN_URL="https://dl.gitea.io/gitea/${GITEA_VERSION}/gitea-${GITEA_VERSION}-linux-arm64";
+    fi
+
     if [ "$GITEA_BIN_URL" = "" ] || [ "${GITEA_VERSION}" = "" ]; then
         echo "Detections of the latest gitea version failed for your OS.";
         if [ "${GITEA_VERSION}" = "" ]; then
